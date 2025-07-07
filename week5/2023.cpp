@@ -5,7 +5,7 @@ int N;  // 숫자의 자리수
 
 bool isPrime(int num) {
     if (num < 2) return false;  // 0, 1은 소수 X
-    for (int i = 2; i * i <= num; i++ ) {  // 2부터 sqrt(num)까지 반복
+    for (int i = 2; i * i <= num; i++ ) {  // 2부터 sqrt(num) (-> 루트 num)까지 반복
         if (num % i == 0) return false;  // 나누어 떨어지면 소수 X
     }
     return true;  // 위의 조건들을 모두 통과하면 소수 O
