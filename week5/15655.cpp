@@ -18,7 +18,7 @@ void DFS(int d, int s) {  // s는 시작 인덱스
     }
 
     for (int i = s; i < N; i++) {  // 이전보다 큰 숫자만 선택
-        if (!visited[i]) {
+        if (!visited[i]) {  // i = s부터 시작하니까 무조건 뒤에 있는 값만 선택 가능하므로 이 줄이 필요가 없음!
             visited[i] = true;  // 숫자 i visited 표시
             selected[d] = nums[i];  // 현재 깊이의 숫자 선택
             DFS(d + 1, i + 1);  // 다음 깊이로 재귀 호출, 다음 숫자는 i 이후 부터
