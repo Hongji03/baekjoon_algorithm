@@ -57,6 +57,7 @@
         "iomanip": "cpp",
         "map": "cpp",
         "xtree": "cpp",
-        "climits": "cpp"
+        "climits": "cpp",
+        "stack": "cpp"
     }
 }

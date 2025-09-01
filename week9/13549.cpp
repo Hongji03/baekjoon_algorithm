@@ -4,10 +4,12 @@
 #include <climits>
 using namespace std;
 
-int MAX = 100000;
-int N, K;  // N: 시작 위치 | K: 목표 위치
-vector<int> dist(MAX + 1, INT_MAX);  // dist[i] = 시작점 N에서 i까지의 최소 시간
-priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;  // 최소 힙 (비용이 작은 순서로 pop) : pair<누적시간, 위치>
+typedef pair<int,int> edge;
+const int MAX = 100000;
+int N, K;
+vector<int> mdistance(MAX + 1, INT_MAX);
+vector<bool> visited(MAX + 1, false);
+priority_queue<edge, vector<edge>, greater<edge>> q;
 
 int main() {
     ios::sync_with_stdio(false);
@@ -15,41 +17,38 @@ int main() {
 
     cin >> N >> K;
 
-    dist[N] = 0;  // 시작 위치 초기화
-    pq.push({0, N});  // 시간 0, 시작 위치 N
+    q.push({0, N});
+    mdistance[N] = 0;
 
-    while (!pq.empty()) {  // pq가 빌 때까지 반복
-        int time = pq.top().first;  // 현재까지의 누적 시간
-        int x = pq.top().second;  // 현재 위치
-        pq.pop();
+    while (!q.empty()) {
+        edge cur = q.top(); q.pop();
+        int x = cur.second;
 
-        if (time > dist[x]) continue;  // 이미 더 짧은 시간에 도달한 적이 있으면 스킵
+        if (visited[x]) {
+            continue;
+        }
+        visited[x] = true;
 
-        // if (x == K) break;  // x가 목표 지점인 경우 최단 거리가 확정이므로 break -> 없어도 되긴 함
-
-        // 0초 이동(순간이동(x -> 2x))
         int nx = x * 2;
-        if (nx <= MAX && dist[nx] > time) {
-            dist[nx] = time;  // 현재 시간 그대로 저장
-            pq.push({dist[nx], nx});
+        if (nx <= MAX && mdistance[nx] > mdistance[x]) {
+            mdistance[nx] = mdistance[x];
+            q.push({mdistance[nx], nx});
         }
 
-        // 1초 이동(뒤로 이동(x -> x-1))
         nx = x - 1;
-        if (nx >= 0 && dist[nx] > time + 1) {
-            dist[nx] = time + 1;
-            pq.push({dist[nx], nx});
+        if (nx >= 0 && mdistance[nx] > mdistance[x] + 1) {
+            mdistance[nx] = mdistance[x] + 1;
+            q.push({mdistance[nx], nx});
         }
 
-        // 1초 이동(앞으로 이동(x -> x+1))
         nx = x + 1;
-        if (nx <= MAX && dist[nx] > time + 1) {
-            dist[nx] = time + 1;
-            pq.push({dist[nx], nx});
+        if (nx <= MAX && mdistance[nx] > mdistance[x] + 1) {
+            mdistance[nx] = mdistance[x] + 1;
+            q.push({mdistance[nx], nx});
         }
     }
 
-    cout << dist[K] << '\n';
+    cout << mdistance[K] << '\n';
 
     return 0;
 }
