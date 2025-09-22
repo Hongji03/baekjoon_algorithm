@@ -63,11 +63,8 @@ int main() {
     }
 
     vector<int> path;
-    for (int v = end; ; v = parent[v]) {
+    for (int v = end; v != start; v = parent[v]) {
         path.push_back(v);
-        if (v == start) {
-            break;
-        }
     }
 
     cout << mdistance[end] << "\n";

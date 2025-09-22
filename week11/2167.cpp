@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int N, M, K, i,j, x, y;
+int N, M, K, i, j, x, y;
 int table[301][301];
 long long prefix[301][301];
 
